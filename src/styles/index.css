@@ -1,0 +1,334 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Smooth global color transitions for seamless theme toggling */
+html, body, #root, #root *, aside, aside * {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 250ms;
+}
+
+@layer base {
+  :root {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  html, body {
+    @apply h-full overflow-hidden bg-slate-50 text-slate-800 antialiased;
+    font-family: var(--font-sans);
+  }
+
+  body.dark {
+    @apply bg-slate-950 text-slate-100;
+  }
+}
+
+/* Custom Scrollbar Styles for premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300/60 transition-colors dark:bg-slate-800/60;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400/80 dark:bg-slate-700/80;
+}
+
+/* Custom glassmorphism wrapper */
+.glass-panel {
+  @apply bg-white/70 backdrop-blur-md border border-slate-200/50 shadow-sm dark:bg-slate-900/70 dark:border-slate-800/50;
+}
+
+.glass-card {
+  @apply bg-white/40 backdrop-blur-sm border border-slate-200/30 dark:bg-slate-900/40 dark:border-slate-800/30;
+}
+
+/* Slide in & Fade animations */
+@keyframes slide-right {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes slide-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slide-in-up {
+  0% {
+    transform: translate(-50%, 1rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-right {
+  animation: slide-right 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-left {
+  animation: slide-left 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-in-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Markdown Preview Typography Styles */
+.markdown-preview {
+  @apply text-base leading-relaxed text-slate-700 dark:text-slate-300;
+}
+
+.markdown-preview h1 {
+  @apply mt-6 mb-4 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-2;
+}
+
+.markdown-preview h2 {
+  @apply mt-6 mb-3 text-2xl font-bold tracking-tight text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-900 pb-1;
+}
+
+.markdown-preview h3 {
+  @apply mt-4 mb-2 text-xl font-semibold text-slate-800 dark:text-slate-100;
+}
+
+.markdown-preview h4 {
+  @apply mt-3 mb-1 text-lg font-medium text-slate-800 dark:text-slate-200;
+}
+
+.markdown-preview p {
+  @apply mb-4 text-slate-600 dark:text-slate-300;
+}
+
+.markdown-preview a {
+  @apply font-medium text-indigo-600 hover:text-indigo-500 underline underline-offset-4 transition-colors dark:text-indigo-400 dark:hover:text-indigo-300;
+}
+
+.markdown-preview strong {
+  @apply font-bold text-slate-900 dark:text-white;
+}
+
+.markdown-preview em {
+  @apply italic;
+}
+
+.markdown-preview ul {
+  @apply mb-4 pl-6 list-disc space-y-1;
+}
+
+.markdown-preview ol {
+  @apply mb-4 pl-6 list-decimal space-y-1;
+}
+
+.markdown-preview li {
+  @apply text-slate-600 dark:text-slate-300;
+}
+
+.markdown-preview li > ul,
+.markdown-preview li > ol {
+  @apply mt-1 mb-0;
+}
+
+/* Blockquotes */
+.markdown-preview blockquote {
+  @apply pl-4 my-4 italic border-l-4 border-slate-300 text-slate-500 dark:border-slate-700 dark:text-slate-400;
+}
+
+/* Inline Code */
+.markdown-preview code:not(pre code):not(.katex code) {
+  @apply px-1.5 py-0.5 rounded bg-slate-100 text-rose-600 font-mono text-sm dark:bg-slate-900 dark:text-rose-400;
+}
+
+/* Fenced Code Blocks styling */
+.markdown-preview pre {
+  @apply my-5 overflow-hidden rounded-xl border border-slate-200/80 shadow-sm dark:border-slate-800/80;
+}
+
+.markdown-preview pre code {
+  @apply block overflow-x-auto p-4 font-mono text-sm leading-relaxed;
+}
+
+/* Tables */
+.markdown-preview table {
+  @apply w-full my-6 border-collapse text-left text-sm;
+}
+
+.markdown-preview thead {
+  @apply bg-slate-50 text-slate-700 font-semibold dark:bg-slate-900/50 dark:text-slate-200;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+  @apply px-4 py-3 border border-slate-200 dark:border-slate-800;
+}
+
+.markdown-preview tbody tr {
+  @apply border-b border-slate-200 hover:bg-slate-50/50 dark:border-slate-800 dark:hover:bg-slate-900/30;
+}
+
+.markdown-preview tbody tr:nth-child(even) {
+  @apply bg-slate-50/30 dark:bg-slate-900/10;
+}
+
+/* Horizontal Rules */
+.markdown-preview hr {
+  @apply my-8 border-t-2 border-slate-200 dark:border-slate-800;
+}
+
+/* Images */
+.markdown-preview img {
+  @apply max-w-full h-auto rounded-lg my-4 shadow-md border border-slate-200 dark:border-slate-800;
+}
+
+/* Custom highlight.js syntax highlighting theme integrated with tailwind classes */
+.hljs {
+  @apply bg-slate-900 text-slate-100 dark:bg-slate-950;
+}
+
+.hljs-comment,
+.hljs-quote {
+  @apply text-slate-500 italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  @apply text-indigo-400 font-semibold;
+}
+
+.hljs-number,
+.hljs-string,
+.hljs-meta,
+.hljs-type,
+.hljs-builtin,
+.hljs-title,
+.hljs-section,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attribute {
+  @apply text-emerald-400;
+}
+
+.hljs-name,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-selector-id,
+.hljs-selector-class {
+  @apply text-rose-400;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-link {
+  @apply text-amber-400;
+}
+
+.hljs-params,
+.hljs-attr {
+  @apply text-cyan-400;
+}
+
+.hljs-built_in,
+.hljs-class {
+  @apply text-violet-400;
+}
+
+.hljs-emphasis {
+  @apply italic;
+}
+
+.hljs-strong {
+  @apply font-bold;
+}
+
+.hljs-link {
+  @apply underline;
+}
+
+/* Print Overrides for Browser PDF Printing */
+@media print {
+  /* Disable transitions and animations during print to avoid engine rendering lag */
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  @page {
+    size: auto;
+    margin: 20mm 15mm 20mm 15mm;
+  }
+
+  /* Force layout wrapper flex/height classes to expand for print */
+  .flex, .flex-col, .flex-row, .overflow-hidden, .overflow-y-auto, .h-screen, .h-full, .min-h-0 {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Reset viewport and layout restrictions on main containers */
+  html, body, #root, main, .preview-container-print, .preview-scroll-area-print {
+    background: white !important;
+    color: black !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    position: static !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .preview-scroll-area-print {
+    padding: 0 !important; /* Page margins handled by @page now */
+  }
+  
+  .markdown-preview {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  
+  /* Avoid breaking elements across pages */
+  .math-block, pre, blockquote, table, tr, img {
+    page-break-inside: avoid !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid !important;
+  }
+
+  /* Hide unnecessary interface elements using high-specificity ID + class selector to beat layout utilities */
+  #root .hide-on-print,
+  .hide-on-print {
+    display: none !important;
+  }
+}

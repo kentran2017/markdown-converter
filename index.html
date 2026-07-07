@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown to HTML Converter | Real-time & Secure</title>
+    <meta name="description" content="A fast, lightweight, and beautiful browser-based Markdown to HTML converter. Convert Markdown syntax to clean HTML in real time with syntax highlighting and task list support." />
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;850&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Blocking script to prevent light-theme flash on F5 reload -->
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('md_converter_theme');
+          const isDark = theme === null ? true : JSON.parse(theme);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
