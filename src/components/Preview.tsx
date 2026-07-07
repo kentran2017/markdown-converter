@@ -96,7 +96,7 @@ export const Preview: React.FC<PreviewProps> = ({
             HTML CODE
           </button>
         </div>
-        <span className="text-[10px] text-slate-400 font-mono">
+        <span className="hidden sm:inline text-[10px] text-slate-400 font-mono">
           {activeTab === 'preview' ? 'RENDERED HTML' : 'SOURCE OUTPUT'}
         </span>
       </div>

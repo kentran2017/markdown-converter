@@ -106,7 +106,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       />
 
       {/* Sidebar Panel */}
-      <aside className="hide-on-print fixed inset-y-0 left-0 w-80 glass-panel border-r shadow-2xl flex flex-col z-45 animate-slide-right">
+      <aside className="hide-on-print fixed inset-y-0 left-0 w-80 max-w-[85vw] glass-panel border-r shadow-2xl flex flex-col z-45 animate-slide-right">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-2">

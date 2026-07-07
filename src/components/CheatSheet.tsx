@@ -74,7 +74,7 @@ export const CheatSheet: React.FC<CheatSheetProps> = ({
       />
 
       {/* Drawer Panel */}
-      <aside className="hide-on-print fixed inset-y-0 right-0 w-80 glass-panel border-l shadow-2xl flex flex-col z-45 animate-slide-left">
+      <aside className="hide-on-print fixed inset-y-0 right-0 w-80 max-w-[85vw] glass-panel border-l shadow-2xl flex flex-col z-45 animate-slide-left">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-200 text-sm">
