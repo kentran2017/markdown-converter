@@ -58,7 +58,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   };
 
   return (
-    <div className="toolbar-container-print hide-on-print glass-panel w-full p-2 sm:p-4 flex flex-row items-center justify-between gap-2 rounded-2xl shadow-sm border relative overflow-hidden">
+    <div className="toolbar-container-print hide-on-print glass-panel w-full p-2.5 pb-3 sm:p-4 flex flex-row items-center justify-between gap-2 rounded-2xl shadow-sm border relative overflow-hidden">
       
       {/* Word & Character Count Stats (Left) */}
       <div className="flex items-center gap-2 sm:gap-4 text-xs font-semibold text-slate-500 dark:text-slate-400">

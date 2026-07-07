@@ -396,7 +396,7 @@ export const App: React.FC = () => {
   }, [toast]);
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300">
+    <div className="flex flex-col h-dvh w-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300">
       <Header />
 
       {/* Main Workspace Layout */}
