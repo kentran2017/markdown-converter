@@ -495,7 +495,10 @@ export const App: React.FC = () => {
         />
       </div>
 
-      <Footer />
+      {/* Hide footer on mobile to reclaim vertical space */}
+      <div className="hidden md:block">
+        <Footer />
+      </div>
 
       {/* Toast Notification */}
       {toast && (
