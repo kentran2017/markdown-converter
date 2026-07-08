@@ -16,7 +16,7 @@ const DEFAULT_MARKDOWN = `# Markdown to HTML Converter 🚀
 Welcome! This is a modern, real-time Markdown to HTML converter that runs entirely in your browser.
 
 ## Features Supported:
-- **Scroll Sync** (proportional editor & preview cuộn đồng bộ)
+- **Scroll Sync** (proportional editor & preview synchronizing scrolling)
 - **Document History Notebook** (collapsible left panel)
 - **Syntax Cheat Sheet** (collapsible right panel, click to insert template)
 - **LaTeX Math support** (inline math like $e^{i\\pi} + 1 = 0$ or block math)
