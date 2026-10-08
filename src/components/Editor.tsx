@@ -1,5 +1,6 @@
 import React from 'react';
 import { UploadCloud, FileText, Menu, HelpCircle, Link as LinkIcon, Link2Off } from 'lucide-react';
+import TurndownService from 'turndown';
 
 interface EditorProps {
   value: string;
@@ -65,6 +66,34 @@ export const Editor: React.FC<EditorProps> = ({
     }
   };
 
+  // Handle Paste
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const html = e.clipboardData.getData('text/html');
+    if (html) {
+      e.preventDefault();
+      const turndownService = new TurndownService({
+        headingStyle: 'atx',
+        codeBlockStyle: 'fenced',
+      });
+      const markdown = turndownService.turndown(html);
+
+      const textarea = e.currentTarget;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      const newValue = value.substring(0, start) + markdown + value.substring(end);
+      onChange(newValue);
+
+      // Move cursor after pasted content
+      setTimeout(() => {
+        if (textareaRef.current) {
+          textareaRef.current.selectionStart = start + markdown.length;
+          textareaRef.current.selectionEnd = start + markdown.length;
+        }
+      }, 0);
+    }
+  };
+
   return (
     <div
       onDragOver={handleDragOver}
@@ -122,6 +151,7 @@ export const Editor: React.FC<EditorProps> = ({
           ref={textareaRef}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onPaste={handlePaste}
           onScroll={onScroll}
           onMouseEnter={onMouseEnter}
           placeholder={placeholder}
