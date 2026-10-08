@@ -118,22 +118,49 @@ const md = new MarkdownIt({
   linkify: true,     // Autoconvert URL-like text to links
   typographer: true, // Enable smartquotes and other typographic enhancements
   highlight: (code: string, lang: string): string => {
+    // Generate a unique ID for the code block
+    const id = 'code-' + Math.random().toString(36).substr(2, 9);
+    const b64Code = btoa(encodeURIComponent(code));
+
+    // Copy button HTML structure using Lucide-like SVG
+    const copyButton = `
+      <button
+        class="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-800/50 hover:bg-slate-700/80 text-slate-400 hover:text-slate-200 opacity-0 group-hover:opacity-100 transition-all duration-200 focus:opacity-100"
+        title="Copy code"
+        data-code="${b64Code}"
+        onclick="
+          const rawCode = decodeURIComponent(atob(this.getAttribute('data-code')));
+          navigator.clipboard.writeText(rawCode);
+          this.innerHTML = '<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'16\\' height=\\'16\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><polyline points=\\'20 6 9 17 4 12\\'></polyline></svg>';
+          this.classList.add('text-emerald-400');
+          setTimeout(() => {
+            this.innerHTML = '<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'16\\' height=\\'16\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><rect x=\\'9\\' y=\\'9\\' width=\\'13\\' height=\\'13\\' rx=\\'2\\' ry=\\'2\\'></rect><path d=\\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\\'></path></svg>';
+            this.classList.remove('text-emerald-400');
+          }, 2000);
+        "
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      </button>
+    `;
+
+    let highlightedCode = '';
     if (lang && hljs.getLanguage(lang)) {
       try {
-        return `<pre class="hljs"><code>${
-          hljs.highlight(code, { language: lang, ignoreIllegals: true }).value
-        }</code></pre>`;
+        highlightedCode = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
       } catch (e) {
         console.error('Highlight error:', e);
       }
     }
-    // Fallback to auto-detection if no language is specified, or highlight with escaping
-    try {
-      const auto = hljs.highlightAuto(code);
-      return `<pre class="hljs"><code>${auto.value}</code></pre>`;
-    } catch {
-      return `<pre class="hljs"><code>${escapeHtml(code)}</code></pre>`;
+
+    if (!highlightedCode) {
+      try {
+        highlightedCode = hljs.highlightAuto(code).value;
+      } catch {
+        highlightedCode = escapeHtml(code);
+      }
     }
+
+    return `<div class="relative group my-4"><pre class="hljs !m-0"><code id="${id}">${highlightedCode}</code></pre>${copyButton}</div>`;
   }
 });
 

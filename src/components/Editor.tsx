@@ -62,6 +62,31 @@ export const Editor: React.FC<EditorProps> = ({
           }
         };
         reader.readAsText(file);
+      } else if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target && typeof event.target.result === 'string') {
+            const base64 = event.target.result;
+            const markdownImage = `![${file.name}](${base64})`;
+
+            const textarea = textareaRef.current;
+            if (textarea) {
+              const start = textarea.selectionStart;
+              const end = textarea.selectionEnd;
+              const newValue = value.substring(0, start) + markdownImage + value.substring(end);
+              onChange(newValue);
+
+              setTimeout(() => {
+                textarea.focus();
+                textarea.selectionStart = start + markdownImage.length;
+                textarea.selectionEnd = start + markdownImage.length;
+              }, 0);
+            } else {
+              onChange(value + '\n' + markdownImage);
+            }
+          }
+        };
+        reader.readAsDataURL(file);
       }
     }
   };
