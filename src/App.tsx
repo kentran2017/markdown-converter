@@ -102,9 +102,50 @@ export const App: React.FC = () => {
   // Word count writing goal
   const [wordGoal, setWordGoal] = useLocalStorage<number>('md_converter_word_goal', 0);
 
+  // Resizer state
+  const [editorWidth, setEditorWidth] = useLocalStorage<number>('md_converter_editor_width', 50);
+  const [isDraggingSplitter, setIsDraggingSplitter] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   // Refs for Scroll Sync
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+
+  // Resizer handlers
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingSplitter || !containerRef.current) return;
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+      // Clamp between 20% and 80%
+      if (newWidth > 20 && newWidth < 80) {
+        setEditorWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsDraggingSplitter(false);
+    };
+
+    if (isDraggingSplitter) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'col-resize';
+    } else {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    };
+  }, [isDraggingSplitter, setEditorWidth]);
 
   // Sync dark mode class to HTML/Body tags
   useEffect(() => {
@@ -442,9 +483,15 @@ export const App: React.FC = () => {
           </div>
 
           {/* Editor and Preview Split Container */}
-          <div className="flex-1 flex flex-col md:flex-row gap-4 sm:gap-6 min-h-0">
+          <div
+            ref={containerRef}
+            className="flex-1 flex flex-col md:flex-row min-h-0 relative"
+            style={{ '--editor-width': `${editorWidth}%` } as React.CSSProperties}
+          >
             {/* Editor Container */}
-            <div className={`flex-1 flex-col h-full min-h-0 ${mobileView === 'edit' ? 'flex' : 'hidden md:flex'}`}>
+            <div
+              className={`flex-col h-full min-h-0 ${mobileView === 'edit' ? 'flex w-full' : 'hidden md:flex'} md:w-[var(--editor-width)]`}
+            >
               <Editor 
                 value={activeContent} 
                 onChange={handleContentChange} 
@@ -459,8 +506,24 @@ export const App: React.FC = () => {
               />
             </div>
             
+            {/* Resizable Splitter (only visible on md+) */}
+            <div
+              className="hidden md:flex w-6 justify-center items-center cursor-col-resize shrink-0 z-10 group"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setIsDraggingSplitter(true);
+              }}
+            >
+              <div className={`h-12 w-1.5 rounded-full transition-colors ${isDraggingSplitter ? 'bg-indigo-500' : 'bg-slate-300 dark:bg-slate-700 group-hover:bg-indigo-400'}`} />
+            </div>
+
+            {/* Gap for mobile only */}
+            <div className="md:hidden h-4 shrink-0" />
+
             {/* Preview Container */}
-            <div className={`flex-1 flex-col h-full min-h-0 ${mobileView === 'preview' ? 'flex' : 'hidden md:flex'}`}>
+            <div
+              className={`flex-col h-full min-h-0 ${mobileView === 'preview' ? 'flex w-full' : 'hidden md:flex'} md:w-[calc(100%-var(--editor-width)-1.5rem)]`}
+            >
               <Preview 
                 htmlContent={htmlContent} 
                 activeTab={activeTab} 
