@@ -457,7 +457,7 @@ export const App: React.FC = () => {
         />
 
         {/* Content Area */}
-        <main className="flex-1 flex flex-col overflow-hidden p-4 sm:p-6 gap-4 sm:gap-6 max-w-7xl w-full mx-auto">
+        <main className="flex-1 flex flex-col overflow-hidden p-4 sm:p-6 gap-4 sm:gap-6 w-full">
           {/* Mobile View Switcher (Tab Bar) - Only visible on mobile screens */}
           <div className="hide-on-print md:hidden flex p-1 bg-slate-200/50 dark:bg-slate-900/60 rounded-xl border border-slate-200/40 dark:border-slate-800/80 gap-1 shadow-xs">
             <button
