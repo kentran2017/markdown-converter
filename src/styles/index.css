@@ -156,7 +156,7 @@ html, body, #root, #root *, aside, aside * {
 
 /* Inline Code */
 .markdown-preview code:not(pre code):not(.katex code) {
-  @apply px-1.5 py-0.5 rounded bg-slate-100 text-rose-600 font-mono text-sm dark:bg-slate-900 dark:text-rose-400;
+  @apply px-1.5 py-0.5 rounded bg-slate-100 text-blue-600 font-mono text-sm dark:bg-slate-900 dark:text-blue-400;
 }
 
 /* Fenced Code Blocks styling */

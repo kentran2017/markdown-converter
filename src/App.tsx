@@ -386,7 +386,7 @@ export const App: React.FC = () => {
     ol { list-style-type: decimal; margin-bottom: 1.25rem; padding-left: 1.5rem; }
     li { margin-bottom: 0.35rem; }
     blockquote { border-left: 4px solid #cbd5e1; padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #64748b; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875em; background-color: #f1f5f9; padding: 0.2rem 0.4rem; rounded: 0.25rem; color: #e11d48; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.875em; background-color: #f1f5f9; padding: 0.2rem 0.4rem; rounded: 0.25rem; color: #2563eb; }
     pre { background-color: #0f172a; border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin: 1.5rem 0; }
     pre code { background-color: transparent; color: #f8fafc; padding: 0; font-size: 0.875rem; }
     table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.875rem; }
